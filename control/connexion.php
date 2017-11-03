@@ -6,10 +6,10 @@
  * Time: 15:40
  */
 
-$servername = "10.100.1.2";
+$servername = "localhost";
 $db = "amgrh";
-$username = "ebouh";
-$password = "ebo";
+$username = "root";
+$password = "root";
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$db;charset=utf8", $username, $password);
