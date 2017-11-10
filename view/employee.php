@@ -2,37 +2,27 @@
 /**
  * Created by PhpStorm.
  * User: e.bouh
- * Date: 20/10/2017
- * Time: 12:53
+ * Date: 24/10/2017
+ * Time: 12:11
  */
+require '../control/connexion.php';
 ?>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Employés des ARCHIVES DU MAROC
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
+        <li class="active">Employés</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
 <div class="row">
-    <div class="col-md-3">
-        <a href="#" class="btn btn-primary btn-block margin-bottom">Ajouter</a>
-        <!-- Widget: user widget style 1 -->
-        <div class="box box-widget widget-user-2">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
-            <div class="widget-user-header bg-yellow">
-                <div class="widget-user-image">
-                    <img class="img-circle" src="dist/img/user7-128x128.jpg" alt="User Avatar">
-                </div>
-                <!-- /.widget-user-image -->
-                <h3 class="widget-user-username">Nadia Carmichael</h3>
-                <h5 class="widget-user-desc">Lead Developer</h5>
-            </div>
-            <div class="box-footer no-padding">
-                <ul class="nav nav-stacked">
-                    <li><a href="#">Projects <span class="pull-right badge bg-blue">31</span></a></li>
-                    <li><a href="#">Tasks <span class="pull-right badge bg-aqua">5</span></a></li>
-                    <li><a href="#">Completed Projects <span class="pull-right badge bg-green">12</span></a></li>
-                    <li><a href="#">Followers <span class="pull-right badge bg-red">842</span></a></li>
-                </ul>
-            </div>
-        </div>
-        <!-- /.widget-user -->
-    </div>
-    <!-- /.col -->
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">Division</h3>
@@ -51,13 +41,16 @@
 
                     <!-- Widget: user widget style 1 -->
                     <div class="box box-widget widget-user">
+
                         <div class="box-tools pull-right">
+
                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Réduire"
                                     data-widget="collapse" style="color: white;"><i class="fa fa-minus"></i></button>
                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Modifier"
                                     data-widget=""><i class="fa fa-edit" style="color: white;"></i></button>
                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Supprimer"
                                     data-widget=""><i class="fa fa-trash-o" style="color: white;"></i></button>
+
                         </div>
                         <!-- Add the bg color to the header using any of the bg-* classes -->
                         <div class="widget-user-header bg-aqua-active">
@@ -245,11 +238,28 @@
                 <h3 class="box-title">Latest Members</h3>
 
                 <div class="box-tools pull-right">
-                    <span class="label label-danger">8 New Members</span>
+                    <!--<span class="label label-danger">8 New Members</span>
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                     </button>
                     <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                    </button>-->
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i>
                     </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-box-tool dropdown-toggle"
+                                data-toggle="dropdown">
+                            <i class="fa fa-wrench"></i></button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i
+                                class="fa fa-times"></i></button>
                 </div>
             </div>
             <!-- /.box-header -->
@@ -378,3 +388,4 @@
     <!-- /.col -->
 </div>
 <!-- /.row -->
+</section>

@@ -6,7 +6,6 @@
  * Time: 12:11
  */
 require '../control/connexion.php';
-
 ?>
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -29,8 +28,20 @@ require '../control/connexion.php';
             ?>
             <div class="col-md-6 connectedSortable ui-sortable">
                 <div class="box box-success box-solid">
-                    <div class="box-header ui-sortable-handle" style="cursor: move;">
+                    <div class="box-header ui-sortable-handle">
                         <h3 class="box-title"><?php echo $dvs['nom']; ?></h3>
+                        <div class="box-tools pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-box-tool dropdown-toggle"
+                                        data-toggle="dropdown">
+                                    <i class="fa fa-wrench"></i></button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#" style="color: #0c0c0c;">Nouveau</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#" style="color: #0c0c0c;">Supprimer</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body no-padding">
@@ -66,4 +77,7 @@ require '../control/connexion.php';
 
     </div>
 </section>
+<script>
+    $.AdminLTE.sortBox();
+</script>
 

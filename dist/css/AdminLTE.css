@@ -3494,7 +3494,7 @@ table.text-center th {
  * ---------------------
  */
 .users-list > li {
-    width: 10%;
+    width: 20%;
     float: left;
     padding: 10px;
     text-align: center;
