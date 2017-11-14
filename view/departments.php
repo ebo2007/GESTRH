@@ -24,7 +24,9 @@ require '../control/connexion.php';
     <div class="row">
         <?php
         $dvsReponse = $conn->query('SELECT * FROM departements WHERE parent IS NULL');
+        $count = 0;
         while ($dvs = $dvsReponse->fetch()) {
+            $count++;
             ?>
             <div class="col-md-6 connectedSortable ui-sortable">
                 <div class="box box-success box-solid">
@@ -36,14 +38,84 @@ require '../control/connexion.php';
                                         data-toggle="dropdown">
                                     <i class="fa fa-wrench"></i></button>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#" style="color: #0c0c0c;">Nouveau</a></li>
+                                    <li><a href="#" style="color: #0c0c0c;" data-toggle="modal"
+                                           data-target="<?php echo "#myModal" . $count ?>">Nouveau</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="#" style="color: #0c0c0c;">Supprimer</a></li>
+                                    <li><a href="#" style="color: #0c0c0c;" data-toggle="modal"
+                                           data-target="<?php echo "#msgBox" . $count ?>">Supprimer</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <!-- /.box-header -->
+                    <div class="modal" id="<?php echo "myModal" . $count ?>">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Nouveau service</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label>Nom Service :</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-sitemap"></i>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Nom Service">
+                                            </div>
+                                            <!-- /.input group -->
+                                        </div>
+                                        <!-- /.form group -->
+                                        <div class="form-group">
+                                            <label>Abbréviation :</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-sitemap"></i>
+                                                </div>
+                                                <input type="text" class="form-control" placeholder="Abbréviation">
+                                            </div>
+                                            <!-- /.input group -->
+                                        </div>
+                                        <!-- /.form group -->
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                                        Fermer
+                                    </button>
+                                    <button type="button" class="btn btn-primary">Enregistrer</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->
+                    <div class="modal modal-warning" id="<?php echo "msgBox" . $count ?>">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Avertissement</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Voulez vous vraiment la supprimer ?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">NON
+                                    </button>
+                                    <button type="button" class="btn btn-outline" data-dismiss="modal">OUI</button>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->
                     <div class="box-body no-padding">
                         <table class="table table-striped">
                             <?php
