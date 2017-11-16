@@ -267,7 +267,7 @@ desired effect
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a id="departments" href="#"><i class="fa  fa-building"></i> <span>Départements</span></a>
+                        <li><a id="departements" href="#"><i class="fa  fa-building"></i> <span>Départements</span></a>
                         </li>
                         <li><a id="employee" href="#"><i class="fa fa-users"></i> <span>Employés</span></a></li>
                     </ul>
