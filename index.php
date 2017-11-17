@@ -299,13 +299,13 @@ desired effect
             {
                 include($uPage);
             }
-            else
+            else if($page != 'index.php')
             {
                 include("404.php");
             }
         }
         else {
-            //include('dashbord.php');
+            include('dashbord.php');
         }
 
         ?>
