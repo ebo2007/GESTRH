@@ -5,7 +5,7 @@
  * Date: 24/10/2017
  * Time: 12:11
  */
-require '../control/connexion.php';
+require '/control/connexion.php';
 ?>
 <!-- Content Header (Page header) -->
 <section class="content-header">

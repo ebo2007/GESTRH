@@ -5,10 +5,11 @@
  * Date: 24/10/2017
  * Time: 12:11
  */
-require '../control/connexion.php';
-include_once '../control/departement.php';
+require '/control/connexion.php';
+include_once '/control/departement.php';
 
 $depart = new \control\departement();
+
 if(isset($_POST['nom'])){
     $depart->loadForm($conn, $_POST);
 }
@@ -41,7 +42,7 @@ if(isset($_POST['nom'])){
                 <!-- /.box-header -->
                 <div class="box-body">
                     <?php
-                    $dvsReponse = $conn->query('SELECT * FROM departements WHERE parent IS NULL');
+                    $dvsReponse = $conn->query('SELECT * FROM departements WHERE parent=0');
                     $data = $dvsReponse->fetchAll(PDO::FETCH_ASSOC);
                     //$count = 0;
                     foreach ($data as $dvs) {
@@ -98,12 +99,13 @@ if(isset($_POST['nom'])){
                                     <span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title">Nouveau Département</h4>
                             </div>
+                            <form  method="post">
                             <div class="modal-body">
-                                <form method="post">
+
                                     <div class="form-group">
                                         <label>Département</label>
                                         <select class="form-control" name="parent">
-                                            <option value="">Archives du Maroc</option>
+                                            <option>Archives du Maroc</option>
                                             <?php
                                                 foreach ($data as $dvs) {
                                             ?>
@@ -136,14 +138,13 @@ if(isset($_POST['nom'])){
                                         <!-- /.input group -->
                                     </div>
                                     <!-- /.form group -->
-                                </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button"  class="btn btn-default pull-left" data-dismiss="modal">
-                                    Fermer
-                                </button>
-                                <button type="submit" class="btn btn-primary" name="enregistrer" data-dismiss="modal">Enregistrer</button>
+                                <button type="button"  class="btn btn-default pull-left" data-dismiss="modal">Fermer</button>
+                                <input type="submit" class="btn btn-primary" name="enregistrer" value="Enregistrer" >
                             </div>
+
+                            </form>
                         </div>
                         <!-- /.modal-content -->
                     </div>
@@ -172,10 +173,20 @@ if(isset($_POST['nom'])){
                 </div>
                 <!-- /.modal -->
             </div>
+            <?php
+            if(isset($_POST['nom'])) {
+                print_r($_POST);
+                //$depart->loadForm($conn, $_POST);
+            }
+            ?>
         </div>
     </div>
 </section>
 <script>
     $.AdminLTE.sortBox();
+    $("input[type='submit']").click(function(){
+        $.notify("HHHHHHHHHHHHHHHHHHHHHHHHH");
+        $.AdminLTE.loadContent("view/departements.php");
+    });
 </script>
 

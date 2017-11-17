@@ -267,18 +267,18 @@ desired effect
             </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a id="departements" href="#"><i class="fa  fa-building"></i> <span>Départements</span></a>
+                        <li><a id="departements" href="?page=departements.php"><i class="fa  fa-building"></i> <span>Départements</span></a>
                         </li>
-                        <li><a id="employee" href="#"><i class="fa fa-users"></i> <span>Employés</span></a></li>
+                        <li><a id="employee" href="?page=employee.php"><i class="fa fa-users"></i> <span>Employés</span></a></li>
                     </ul>
                 </li>
-                <li><a id="leave" href="#"><i class="fa fa-link"></i> <span>Congés</span></a></li>
-                <li><a id="presence" href="#"><i class="fa fa-link"></i> <span>Présence</span></a></li>
-                <li><a id="notes" href="#"><i class="fa fa-link"></i> <span>Notes Internes</span></a></li>
-                <li><a id="candidate" href="#"><i class="fa fa-link"></i> <span>Candidat</span></a></li>
-                <li><a id="offers" href="#"><i class="fa fa-link"></i> <span>Offres d'emploi</span></a></li>
-                <li><a id="interviews" href="#"><i class="fa fa-link"></i> <span>Entretiens</span></a></li>
-                <li><a id="reports" href="#"><i class="fa fa-link"></i> <span>Rapports</span></a></li>
+                <li><a id="leave" href="?page=leave.php"><i class="fa fa-link"></i> <span>Congés</span></a></li>
+                <li><a id="presence" href="?page=presence.php"><i class="fa fa-link"></i> <span>Présence</span></a></li>
+                <li><a id="notes" href="?page=notes.php"><i class="fa fa-link"></i> <span>Notes Internes</span></a></li>
+                <li><a id="candidate" href="?page=candidate.php"><i class="fa fa-link"></i> <span>Candidat</span></a></li>
+                <li><a id="offers" href="?page=offers.php"><i class="fa fa-link"></i> <span>Offres d'emploi</span></a></li>
+                <li><a id="interviews" href="?page=interviews.php"><i class="fa fa-link"></i> <span>Entretiens</span></a></li>
+                <li><a id="reports" href="?page=reports.php"><i class="fa fa-link"></i> <span>Rapports</span></a></li>
 
             </ul>
             <!-- /.sidebar-menu -->
@@ -288,7 +288,27 @@ desired effect
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+        <?php
 
+        $page = isset($_GET['page']) ? $_GET['page'] : 'index.php';
+        $uPage = "/view/".$page;
+        $url = $_SERVER['DOCUMENT_ROOT'].$uPage;
+
+        if (!empty($page)) {
+            if(file_exists($url))
+            {
+                include($uPage);
+            }
+            else
+            {
+                include("404.php");
+            }
+        }
+        else {
+            //include('dashbord.php');
+        }
+
+        ?>
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
@@ -407,10 +427,13 @@ desired effect
 <link rel="stylesheet" href="plugins/timepicker/bootstrap-timepicker.min.css">
 <!-- Select2 -->
 <link rel="stylesheet" href="plugins/select2/select2.min.css">
+<!-- Bootstrap notify -->
+<script src="plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
 <script src="dist/js/fns.js"></script>
 <script>
-    $.AdminLTE.clickMenu();
+    //$.AdminLTE.clickMenu();
     $.AdminLTE.sortBox();
+    $.AdminLTE.msgBox();
 </script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
