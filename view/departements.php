@@ -5,13 +5,11 @@
  * Date: 24/10/2017
  * Time: 12:11
  */
-require '/control/connexion.php';
 include_once '/control/departement.php';
 
-$depart = new \control\departement();
-
-if(isset($_POST['nom'])){
-    $depart->loadForm($conn, $_POST);
+$depart = new departement();
+if(isset($_POST['submit'])){
+    $depart->loadForm($_POST);
 }
 ?>
 <!-- Content Header (Page header) -->
@@ -21,7 +19,7 @@ if(isset($_POST['nom'])){
         <small>Divisions & Services</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
+        <li><a href="?page=dashboard.php"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
         <li class="active">Départements</li>
     </ol>
 </section>
@@ -42,11 +40,11 @@ if(isset($_POST['nom'])){
                 <!-- /.box-header -->
                 <div class="box-body">
                     <?php
-                    $dvsReponse = $conn->query('SELECT * FROM departements WHERE parent=0');
+                    $dvsReponse = $depart->select("departements", " WHERE parent=0");//$conn->query('SELECT * FROM departements WHERE parent=0');
                     $data = $dvsReponse->fetchAll(PDO::FETCH_ASSOC);
                     //$count = 0;
                     foreach ($data as $dvs) {
-                        //$count++;
+
                         ?>
                         <div class="col-md-6 connectedSortable ui-sortable">
                             <div class="box box-success box-solid">
@@ -54,16 +52,17 @@ if(isset($_POST['nom'])){
                                     <h3 class="box-title"><?php echo $dvs['nom']; ?></h3>
                                     <div class="box-tools pull-right">
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i></button>
-                                            <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#msgBox"><i class="fa fa-trash-o"></i></button>
+                                            <button id="dept_edit" type="button" class="btn btn-box-tool" ><i class="fa fa-edit"></i></button>
+                                            <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#msgBox" data-val="<?php echo json_encode($dvs); ?>"><i class="fa fa-trash-o"></i></button>
                                         </div>
                                     </div>
+                                    <?php echo json_encode($dvs, JSON_UNESCAPED_UNICODE); ?>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body no-padding">
                                     <table class="table table-striped">
                                         <?php
-                                        $srvReponse = $conn->query('SELECT * FROM departements WHERE parent = ' . $dvs['sid']);
+                                        $srvReponse = $depart->select("departements", " WHERE parent=".$dvs['sid']);//$conn->query('SELECT * FROM departements WHERE parent = ' . $dvs['sid']);
                                         while ($srv = $srvReponse->fetch(PDO::FETCH_ASSOC)) {
                                             ?>
                                             <tr>
@@ -99,9 +98,9 @@ if(isset($_POST['nom'])){
                                     <span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title">Nouveau Département</h4>
                             </div>
-                            <form  method="post">
-                            <div class="modal-body">
-
+                            <form  method="post" id="dep_frm">
+                                <div class="modal-body">
+                                    <input type="hidden" name="sid" value=<?php echo $depart->sid;?>>
                                     <div class="form-group">
                                         <label>Département</label>
                                         <select class="form-control" name="parent">
@@ -141,7 +140,7 @@ if(isset($_POST['nom'])){
                             </div>
                             <div class="modal-footer">
                                 <button type="button"  class="btn btn-default pull-left" data-dismiss="modal">Fermer</button>
-                                <input type="submit" class="btn btn-primary" name="enregistrer" value="Enregistrer" >
+                                <input type="submit" class="btn btn-primary" name="submit" value="Enregistrer" >
                             </div>
 
                             </form>
@@ -173,20 +172,30 @@ if(isset($_POST['nom'])){
                 </div>
                 <!-- /.modal -->
             </div>
-            <?php
-            if(isset($_POST['nom'])) {
-                print_r($_POST);
-                //$depart->loadForm($conn, $_POST);
-            }
-            ?>
         </div>
     </div>
 </section>
 <script>
     $.AdminLTE.sortBox();
+    /*
     $("input[type='submit']").click(function(){
         $.notify("HHHHHHHHHHHHHHHHHHHHHHHHH");
-        $.AdminLTE.loadContent("view/departements.php");
     });
+    */
+    $("#dept_edit").click(function(){
+        $('#myModal').modal('show');
+    });
+    $("#myModal").on("shown.bs.modal", function(e) {
+        alert("tttttttttttttttttttttttttttttt");
+        var link = $(e.relatedTarget);
+        var data = link.attr("data-val")
+        $.each(data, function(key, value){
+            $('[name='+key+']', '#dep_frm').val(value);
+        });
+        //var link = $(e.relatedTarget);
+        //alert("test");
+        //$(this).find(".modal-body").load(link.attr("href"));
+    });
+    alert('test');
 </script>
 

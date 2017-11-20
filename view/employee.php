@@ -14,7 +14,7 @@ require '/control/connexion.php';
         <small></small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
+        <li><a href="?page=dashboard.php"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
         <li class="active">Employés</li>
     </ol>
 </section>

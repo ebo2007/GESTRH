@@ -58,7 +58,7 @@ desired effect
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="_index2.html" class="logo">
+        <a href="?page=dashboard.php" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>G</b>RH</span>
             <!-- logo for regular state and mobile devices -->
@@ -260,7 +260,7 @@ desired effect
                 <li class="header">RESSOURCES HUMAINES</li>
                 <!-- Optionally, you can add icons to the links -->
 
-                <li class="treeview">
+                <li class="active treeview">
                     <a href="#"><i class="fa fa-bank"></i> <span>Instutition</span>
                         <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -289,25 +289,22 @@ desired effect
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <?php
-
-        $page = isset($_GET['page']) ? $_GET['page'] : 'index.php';
-        $uPage = "/view/".$page;
-        $url = $_SERVER['DOCUMENT_ROOT'].$uPage;
-
+        $page = isset($_GET['page']) ? $_GET['page'] : '';
         if (!empty($page)) {
+            $uPage = "/view/".$page;
+            $url = $_SERVER['DOCUMENT_ROOT'].$uPage;
             if(file_exists($url))
             {
                 include($uPage);
             }
-            else if($page != 'index.php')
+            else
             {
                 include("404.php");
             }
         }
         else {
-            include('dashbord.php');
+            include('/view/dashboard.php');
         }
-
         ?>
         <!-- /.content -->
     </div>
@@ -434,6 +431,7 @@ desired effect
     //$.AdminLTE.clickMenu();
     $.AdminLTE.sortBox();
     $.AdminLTE.msgBox();
+
 </script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
