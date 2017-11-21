@@ -430,7 +430,7 @@ desired effect
 <script>
     //$.AdminLTE.clickMenu();
     $.AdminLTE.sortBox();
-    $.AdminLTE.msgBox();
+    $.AdminLTE.editDept();
 
 </script>
 

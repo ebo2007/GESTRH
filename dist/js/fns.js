@@ -67,4 +67,20 @@
 
     }
 
+    AdminLTE.editDept = function () {
+        $("#myModal").on("shown.bs.modal", function(e) {
+            var link = $(e.relatedTarget);
+            var data = $.parseJSON(link.attr('data-val').replace(/\'/g, '"'));
+            $.each(data, function(key, value){
+                //alert(key + " -> " + value);
+                $('#dep_frm [name='+key+']').val(value);
+            });
+        });
+        $("#msgBox").on("shown.bs.modal", function(e) {
+            var elem = $(e.relatedTarget);
+            var sid = elem.attr('data-val');
+            $('#frm_delete [name=sid]').val(sid);
+        });
+    }
+
 })(jQuery, $.AdminLTE);

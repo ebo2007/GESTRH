@@ -11,6 +11,9 @@ $depart = new departement();
 if(isset($_POST['submit'])){
     $depart->loadForm($_POST);
 }
+if(isset($_POST['sDelete'])){
+    $depart->delete_record($_POST);
+}
 ?>
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -44,6 +47,7 @@ if(isset($_POST['submit'])){
                     $data = $dvsReponse->fetchAll(PDO::FETCH_ASSOC);
                     //$count = 0;
                     foreach ($data as $dvs) {
+                        $str = htmlspecialchars(str_replace("\"","'", json_encode($dvs,JSON_UNESCAPED_UNICODE)), ENT_QUOTES, 'UTF-8');
 
                         ?>
                         <div class="col-md-6 connectedSortable ui-sortable">
@@ -52,11 +56,10 @@ if(isset($_POST['submit'])){
                                     <h3 class="box-title"><?php echo $dvs['nom']; ?></h3>
                                     <div class="box-tools pull-right">
                                         <div class="btn-group">
-                                            <button id="dept_edit" type="button" class="btn btn-box-tool" ><i class="fa fa-edit"></i></button>
-                                            <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#msgBox" data-val="<?php echo json_encode($dvs); ?>"><i class="fa fa-trash-o"></i></button>
+                                            <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#myModal" data-val="<?php echo $str; ?>"><i class="fa fa-edit"></i></button>
+                                            <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#msgBox" data-val="<?php echo $dvs['sid']; ?>"><i class="fa fa-trash-o"></i></button>
                                         </div>
                                     </div>
-                                    <?php echo json_encode($dvs, JSON_UNESCAPED_UNICODE); ?>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body no-padding">
@@ -64,6 +67,7 @@ if(isset($_POST['submit'])){
                                         <?php
                                         $srvReponse = $depart->select("departements", " WHERE parent=".$dvs['sid']);//$conn->query('SELECT * FROM departements WHERE parent = ' . $dvs['sid']);
                                         while ($srv = $srvReponse->fetch(PDO::FETCH_ASSOC)) {
+                                            $strs = htmlspecialchars(str_replace("\"","'", json_encode($srv,JSON_UNESCAPED_UNICODE)), ENT_QUOTES, 'UTF-8');
                                             ?>
                                             <tr>
                                                 <td style="width: 10px"><i class="fa fa-sitemap"></i></td>
@@ -71,8 +75,8 @@ if(isset($_POST['submit'])){
                                                 <td><?php echo $srv['abbreviation']; ?></td>
                                                 <td style="width: 45px">
                                                     <div class="tools">
-                                                        <a style="cursor: pointer;" class="fa fa-edit" data-toggle="modal" data-target="#myModal"></a>
-                                                        <a style="cursor: pointer;" class="fa fa-trash-o" data-toggle="modal" data-target="#msgBox"></a>
+                                                        <a style="cursor: pointer;" class="fa fa-edit" data-toggle="modal" data-target="#myModal" data-val="<?php echo $strs; ?>"></a>
+                                                        <a style="cursor: pointer;" class="fa fa-trash-o" data-toggle="modal" data-target="#msgBox" data-val="<?php echo $srv['sid']; ?>"></a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -104,7 +108,7 @@ if(isset($_POST['submit'])){
                                     <div class="form-group">
                                         <label>Département</label>
                                         <select class="form-control" name="parent">
-                                            <option>Archives du Maroc</option>
+                                            <option value="0">Archives du Maroc</option>
                                             <?php
                                                 foreach ($data as $dvs) {
                                             ?>
@@ -163,7 +167,10 @@ if(isset($_POST['submit'])){
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">NON</button>
-                                <button type="button" class="btn btn-outline" data-dismiss="modal">OUI</button>
+                                <form method="post" id="frm_delete">
+                                    <input type="hidden" name="sid" value="<?php echo $depart->sid ?>">
+                                    <input type="submit" name="sDelete"  value="OUI" class="btn btn-outline" data-dismiss="modal">
+                                </form>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -176,26 +183,13 @@ if(isset($_POST['submit'])){
     </div>
 </section>
 <script>
-    $.AdminLTE.sortBox();
+    //$.AdminLTE.sortBox();
+    //$.AdminLTE.editDept();
     /*
     $("input[type='submit']").click(function(){
         $.notify("HHHHHHHHHHHHHHHHHHHHHHHHH");
     });
     */
-    $("#dept_edit").click(function(){
-        $('#myModal').modal('show');
-    });
-    $("#myModal").on("shown.bs.modal", function(e) {
-        alert("tttttttttttttttttttttttttttttt");
-        var link = $(e.relatedTarget);
-        var data = link.attr("data-val")
-        $.each(data, function(key, value){
-            $('[name='+key+']', '#dep_frm').val(value);
-        });
-        //var link = $(e.relatedTarget);
-        //alert("test");
-        //$(this).find(".modal-body").load(link.attr("href"));
-    });
-    alert('test');
+
 </script>
 

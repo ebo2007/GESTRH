@@ -36,34 +36,52 @@ class departement extends connexion
                 'abbreviation' => $this->abbreviation,
                 'parent' => $this->parent
             ));
-            /*
-            $req = $con->prepare('INSERT INTO departements (nom, abbreviation, parent) VALUES (:nom, :abbreviation, :parent)');
-            $req->execute(array(
-                'nom' => $this->nom,
-                'abbreviation' => $this->abbreviation,
-                'parent' => $this->parent
-            ));
-            */
-            echo 'Le jeu a bien été ajouté !';
         } catch (PDOException $e) {
             die('Erreur : ' . $e->getMessage());
         }
 
     }
 
+    public function edit_recod(){
+        try {
+            $this->update("departements", array(
+                'nom' => $this->nom,
+                'abbreviation' => $this->abbreviation,
+                'parent' => $this->parent
+            ), intval($this->sid) );
+        } catch (PDOException $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
+
+    public function delete_record($data){
+        extract($data);
+        $this->sid          = $sid;
+        try{
+            $this->delete("departements", $this->sid, " WHERE parent=$this->sid");
+        } catch (PDOException $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+    }
+
     public function loadForm($data){
         extract($data);
-        $this->nom              = trim(htmlentities($nom, ENT_QUOTES));
-        $this->abbreviation     = trim(htmlentities($abbreviation, ENT_QUOTES));
-        $this->parent           = $parent;
+        $this->sid          = $sid;
+        $this->nom          = trim(htmlentities($nom, ENT_QUOTES));
+        $this->abbreviation = trim(htmlentities($abbreviation, ENT_QUOTES));
+        $this->parent       = $parent;
 
         if($this->testForm()){
-            $this->add_record();
-        };
+            if(is_null($this->verif_null($this->sid))){
+                $this->add_record();
+            } else {
+                $this->edit_recod();
+            }
+        }
     }
 
     public function testForm(){
-        if(is_null($this->verif_null($this->nom)) and is_null($this->verif_null($this->abbreviation))){
+        if(is_null($this->verif_null($this->nom)) and is_null($this->verif_null($this->abbreviation)) and is_null($this->verif_null($this->parent))){
             return false;
         }
         return true;
