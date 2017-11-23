@@ -69,17 +69,39 @@
 
     AdminLTE.editDept = function () {
         $("#myModal").on("shown.bs.modal", function(e) {
+            $("#dep_frm").trigger('reset');
             var link = $(e.relatedTarget);
             var data = $.parseJSON(link.attr('data-val').replace(/\'/g, '"'));
+            var count = 0;
             $.each(data, function(key, value){
-                //alert(key + " -> " + value);
-                $('#dep_frm [name='+key+']').val(value);
+                $("#dep_frm [name="+key+"]").val(value);
+                count++;
             });
+            if(count > 1){
+                $("#dep_frm select[name='parent']").removeAttr('disabled');
+            }else{
+                $("#dep_frm select[name='parent']").attr('disabled', 'disabled');
+            }
         });
+
+        $( "#dep_frm select[name='parent']" ).change(function() {
+            $( "#dep_frm select[name='parent'] option:selected" ).each(function() {
+                $( "#dep_frm input[name='parent']" ).val( $( this ).val() );
+            });
+        }).trigger( "change" );
+
         $("#msgBox").on("shown.bs.modal", function(e) {
+            $("#msgBox").trigger('reset');
             var elem = $(e.relatedTarget);
             var sid = elem.attr('data-val');
             $('#frm_delete [name=sid]').val(sid);
+        });
+
+        $("#dep_frm input[type='submit']").on("click", function(e) {
+            $("#dep_frm").submit(function(e){
+                $.notify("HHHHHHHHHHHHHHHHHHHHHHHHH");
+                e.preventDefault();
+            });
         });
     }
 

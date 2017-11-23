@@ -58,7 +58,7 @@ class departement extends connexion
         extract($data);
         $this->sid          = $sid;
         try{
-            $this->delete("departements", $this->sid, " WHERE parent=$this->sid");
+            $this->delete("departements", $this->sid);
         } catch (PDOException $e) {
             die('Erreur : ' . $e->getMessage());
         }
@@ -69,7 +69,7 @@ class departement extends connexion
         $this->sid          = $sid;
         $this->nom          = trim(htmlentities($nom, ENT_QUOTES));
         $this->abbreviation = trim(htmlentities($abbreviation, ENT_QUOTES));
-        $this->parent       = $parent;
+        $this->parent       = $this->verif_null($parent);
 
         if($this->testForm()){
             if(is_null($this->verif_null($this->sid))){

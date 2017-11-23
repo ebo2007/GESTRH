@@ -428,7 +428,7 @@ desired effect
 <script src="plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
 <script src="dist/js/fns.js"></script>
 <script>
-    //$.AdminLTE.clickMenu();
+    $.AdminLTE.msgBox();
     $.AdminLTE.sortBox();
     $.AdminLTE.editDept();
 

@@ -7,6 +7,7 @@
  */
 include_once '/control/departement.php';
 
+
 $depart = new departement();
 if(isset($_POST['submit'])){
     $depart->loadForm($_POST);
@@ -14,7 +15,9 @@ if(isset($_POST['submit'])){
 if(isset($_POST['sDelete'])){
     $depart->delete_record($_POST);
 }
+print_r($_POST)
 ?>
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
@@ -36,14 +39,14 @@ if(isset($_POST['sDelete'])){
                     <h3 class="box-title">ARCHIVES DU MAROC</h3>
 
                     <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i></button>
+                        <a class="btn btn-box-tool" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i></a>
                     </div>
                     <!-- /.box-tools -->
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
                     <?php
-                    $dvsReponse = $depart->select("departements", " WHERE parent=0");//$conn->query('SELECT * FROM departements WHERE parent=0');
+                    $dvsReponse = $depart->select("departements", " WHERE parent IS NULL");//$conn->query('SELECT * FROM departements WHERE parent=0');
                     $data = $dvsReponse->fetchAll(PDO::FETCH_ASSOC);
                     //$count = 0;
                     foreach ($data as $dvs) {
@@ -56,8 +59,9 @@ if(isset($_POST['sDelete'])){
                                     <h3 class="box-title"><?php echo $dvs['nom']; ?></h3>
                                     <div class="box-tools pull-right">
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#myModal" data-val="<?php echo $str; ?>"><i class="fa fa-edit"></i></button>
-                                            <button type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#msgBox" data-val="<?php echo $dvs['sid']; ?>"><i class="fa fa-trash-o"></i></button>
+                                            <a class="btn btn-box-tool" data-toggle="modal" data-target="#myModal" data-val="<?php echo "{'parent': ".$dvs['sid']."}"; ?>"><i class="fa fa-plus"></i></a>
+                                            <a  class="btn btn-box-tool" data-toggle="modal" data-target="#myModal" data-val="<?php echo $str; ?>"><i class="fa fa-edit"></i></a>
+                                            <a  class="btn btn-box-tool" data-toggle="modal" data-target="#msgBox" data-val="<?php echo $dvs['sid']; ?>"><i class="fa fa-trash-o"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -104,11 +108,12 @@ if(isset($_POST['sDelete'])){
                             </div>
                             <form  method="post" id="dep_frm">
                                 <div class="modal-body">
-                                    <input type="hidden" name="sid" value=<?php echo $depart->sid;?>>
+                                    <input type="hidden" name="sid" value="">
                                     <div class="form-group">
+                                        <input type="hidden" name="parent" value="">
                                         <label>Département</label>
                                         <select class="form-control" name="parent">
-                                            <option value="0">Archives du Maroc</option>
+                                            <option value="<?php echo NULL ?>">Archives du Maroc</option>
                                             <?php
                                                 foreach ($data as $dvs) {
                                             ?>
@@ -125,7 +130,7 @@ if(isset($_POST['sDelete'])){
                                             <div class="input-group-addon">
                                                 <i class="fa fa-sitemap"></i>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Nom Service" name="nom" value="<?php echo $depart->nom ?>" >
+                                            <input type="text" class="form-control" placeholder="Nom Service" name="nom" value="" >
                                         </div>
                                         <!-- /.input group -->
                                     </div>
@@ -136,15 +141,15 @@ if(isset($_POST['sDelete'])){
                                             <div class="input-group-addon">
                                                 <i class="fa fa-sitemap"></i>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Abbréviation"name="abbreviation" value="<?php echo $depart->abbreviation ?>">
+                                            <input type="text" class="form-control" placeholder="Abbréviation"name="abbreviation" value="">
                                         </div>
                                         <!-- /.input group -->
                                     </div>
                                     <!-- /.form group -->
                             </div>
                             <div class="modal-footer">
-                                <button type="button"  class="btn btn-default pull-left" data-dismiss="modal">Fermer</button>
-                                <input type="submit" class="btn btn-primary" name="submit" value="Enregistrer" >
+                                <input type="button"  class="btn btn-default pull-left" data-dismiss="modal" value="Fermer">
+                                <input type="submit" class="btn btn-primary" name="submit" data-dismiss="modal" value="Enregistrer" >
                             </div>
 
                             </form>
@@ -169,7 +174,7 @@ if(isset($_POST['sDelete'])){
                                 <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">NON</button>
                                 <form method="post" id="frm_delete">
                                     <input type="hidden" name="sid" value="<?php echo $depart->sid ?>">
-                                    <input type="submit" name="sDelete"  value="OUI" class="btn btn-outline" data-dismiss="modal">
+                                    <input type="submit" name="sDelete"  value="OUI" class="btn btn-outline">
                                 </form>
                             </div>
                         </div>
@@ -183,13 +188,8 @@ if(isset($_POST['sDelete'])){
     </div>
 </section>
 <script>
-    //$.AdminLTE.sortBox();
-    //$.AdminLTE.editDept();
-    /*
-    $("input[type='submit']").click(function(){
+
         $.notify("HHHHHHHHHHHHHHHHHHHHHHHHH");
-    });
-    */
 
 </script>
 
