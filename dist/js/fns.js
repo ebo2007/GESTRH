@@ -39,8 +39,8 @@
             },
             offset: 20,
             spacing: 10,
-            z_index: 1031,
-            delay: 5000,
+            z_index: 10310,
+            delay: 9000,
             timer: 1000,
             url_target: '_blank',
             mouse_over: null,
@@ -68,10 +68,11 @@
     }
 
     AdminLTE.editDept = function () {
+        var data;
         $("#myModal").on("shown.bs.modal", function(e) {
             $("#dep_frm").trigger('reset');
             var link = $(e.relatedTarget);
-            var data = $.parseJSON(link.attr('data-val').replace(/\'/g, '"'));
+            data = $.parseJSON(link.attr('data-val').replace(/\'/g, '"'));
             var count = 0;
             $.each(data, function(key, value){
                 $("#dep_frm [name="+key+"]").val(value);
@@ -97,12 +98,19 @@
             $('#frm_delete [name=sid]').val(sid);
         });
 
-        $("#dep_frm input[type='submit']").on("click", function(e) {
-            $("#dep_frm").submit(function(e){
-                $.notify("HHHHHHHHHHHHHHHHHHHHHHHHH");
-                e.preventDefault();
+
+        $("#dep_frm input[type='submit']").on('click', function(e){
+            $.ajax( {
+                url : "control/handler/departementHdl.php",
+                type : "POST",
+                data : $('#dep_frm').serialize(),
+                success : function(data) {
+                    $.AdminLTE.loadContent('view/departements.php');
+                    $.notify(data);
+                }
             });
         });
+
     }
 
 })(jQuery, $.AdminLTE);

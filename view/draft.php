@@ -1,3 +1,6 @@
+<?php
+    print_r($_POST);
+?>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
      style="display: none;color: #0c0c0c;">
     <div class="modal-dialog">

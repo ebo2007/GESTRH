@@ -426,6 +426,7 @@ desired effect
 <link rel="stylesheet" href="plugins/select2/select2.min.css">
 <!-- Bootstrap notify -->
 <script src="plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="plugins/Bootstrap-Toast-Notification/jquery.toaster.js"></script>
 <script src="dist/js/fns.js"></script>
 <script>
     $.AdminLTE.msgBox();

@@ -5,6 +5,7 @@
  * Date: 17/11/2017
  * Time: 16:12
  */
+
 ?>
 <section class="content-header">
     <h1>404 Error Page</h1>

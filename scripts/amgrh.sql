@@ -26,9 +26,12 @@ CREATE TABLE `departements` (
   `sid` tinyint(4) unsigned NOT NULL AUTO_INCREMENT,
   `nom` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `abbreviation` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `parent` tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (`sid`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `parent` tinyint(4) unsigned DEFAULT '0',
+  PRIMARY KEY (`sid`),
+  UNIQUE KEY `IDX_DEPT_ID` (`sid`),
+  KEY `IDX_DEPT_PARENT` (`parent`),
+  CONSTRAINT `FR_DEPT_PARENT` FOREIGN KEY (`parent`) REFERENCES `departements` (`sid`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +40,7 @@ CREATE TABLE `departements` (
 
 LOCK TABLES `departements` WRITE;
 /*!40000 ALTER TABLE `departements` DISABLE KEYS */;
-INSERT INTO `departements` VALUES (1,'Division des Archives des Administrations Centrales et des Etablissements Publics','DAACEP',NULL),(2,'Division des Affaires Administratives et Financières','DAAF',NULL),(3,'Division de la Communication et de la Diffusion','DCD',NULL),(4,'Division de la Collecte et Traitement','DCT',NULL),(5,'Service des Archives des Administrations Centrales ','SAAC',1),(6,'Service des Archives des Etablissements publics','SAEP',1),(7,'Service de Gestion des Ressources humaines','SGRH',2),(8,'Service du Budget et Comptabilité','SBC',2),(9,'Service Production et Développement Informatique','SPDI',2),(10,'Service de Recherche Documentaire et Consultation','SRDC',3),(11,'Service de Publication et Edition','SPE',3),(12,'Service des Activités Culturelles et Scientifiques','SACS',3),(13,'Service des Méthodes et Normalisation','SMN',4),(14,'Service de la Collecte','SC',4),(15,'Service du Traitement','ST',4);
+INSERT INTO `departements` VALUES (35,'Division des Archives des Administrations Centrales et des Etablissements Publics','DAACEP',NULL),(36,'Division des Affaires Administratives et Financiéres','DAAF',NULL),(37,'Division de la Communication et de la Diffusion','DCD',NULL),(38,'Division de la Collecte et Traitement','DCT',NULL),(39,'Service des Archives des Administrations Centrales','SAAC',35),(40,'Service des Archives des Etablissements publics','SAEP',35),(41,'Service de Gestion des Ressources humaines','SGRH',36),(42,'Service du Budget et Comptabilité','SBC',36),(43,'Service Production et D&eacute;veloppement Informatique','SPDI',36),(44,'Service de Recherche Documentaire et Consultation','SRDC',37),(45,'Service de Publication et Edition','SPE',37),(46,'Service des Activit&amp;eacute;s Culturelles et Scientifiques','SACS',37),(47,'Service des Méthodes et Normalisation','SMN',38),(48,'Service de la Collecte','SC',38),(53,'Service de Traitements','ST',38),(90,'TESTT','TS',NULL),(91,'gggggggggggggggg','gggghhg',90),(92,'ggggggggggggggg','gg',90),(93,'ttttttttttttttttttt','tt',90),(94,'rttttttttte','rt',90),(95,'ffhgghf','fghfghfghfg',90);
 /*!40000 ALTER TABLE `departements` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,4 +143,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-02 15:30:44
+-- Dump completed on 2017-11-24 10:35:08

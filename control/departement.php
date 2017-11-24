@@ -8,7 +8,7 @@
 
 //namespace control;
 
-include('/control/connexion.php');
+include('connexion.php');
 
 class departement extends connexion
 {
@@ -78,6 +78,7 @@ class departement extends connexion
                 $this->edit_recod();
             }
         }
+        return 'success';
     }
 
     public function testForm(){

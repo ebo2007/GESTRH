@@ -5,17 +5,15 @@
  * Date: 24/10/2017
  * Time: 12:11
  */
-include_once '/control/departement.php';
-
+if(file_exists('control/departement.php')) {
+    require 'control/departement.php';
+} else {
+    require '../control/departement.php';
+}
+    
 
 $depart = new departement();
-if(isset($_POST['submit'])){
-    $depart->loadForm($_POST);
-}
-if(isset($_POST['sDelete'])){
-    $depart->delete_record($_POST);
-}
-print_r($_POST)
+
 ?>
 
 <!-- Content Header (Page header) -->
@@ -106,7 +104,7 @@ print_r($_POST)
                                     <span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title">Nouveau Département</h4>
                             </div>
-                            <form  method="post" id="dep_frm">
+                            <form  method="post" id="dep_frm" onsubmit="">
                                 <div class="modal-body">
                                     <input type="hidden" name="sid" value="">
                                     <div class="form-group">
@@ -187,9 +185,3 @@ print_r($_POST)
         </div>
     </div>
 </section>
-<script>
-
-        $.notify("HHHHHHHHHHHHHHHHHHHHHHHHH");
-
-</script>
-
