@@ -9,10 +9,10 @@
 include_once '../departement.php';
 
 $depart = new departement();
-if(isset($_POST['nom'])){
+if(isset($_POST['edit'])){
     echo $depart->loadForm($_POST);
 }
 
-if(isset($_POST['sDelete'])){
-    $depart->delete_record($_POST);
+if(isset($_POST['del'])){
+    echo $depart->delete_record($_POST);
 }

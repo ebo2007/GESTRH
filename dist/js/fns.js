@@ -68,11 +68,10 @@
     }
 
     AdminLTE.editDept = function () {
-        var data;
         $("#myModal").on("shown.bs.modal", function(e) {
             $("#dep_frm").trigger('reset');
             var link = $(e.relatedTarget);
-            data = $.parseJSON(link.attr('data-val').replace(/\'/g, '"'));
+            var data = $.parseJSON(link.attr('data-val').replace(/\'/g, '"'));
             var count = 0;
             $.each(data, function(key, value){
                 $("#dep_frm [name="+key+"]").val(value);
@@ -91,19 +90,33 @@
             });
         }).trigger( "change" );
 
-        $("#msgBox").on("shown.bs.modal", function(e) {
-            $("#msgBox").trigger('reset');
-            var elem = $(e.relatedTarget);
-            var sid = elem.attr('data-val');
-            $('#frm_delete [name=sid]').val(sid);
-        });
-
-
         $("#dep_frm input[type='submit']").on('click', function(e){
             $.ajax( {
                 url : "control/handler/departementHdl.php",
                 type : "POST",
                 data : $('#dep_frm').serialize(),
+                success : function(data) {
+                    $.AdminLTE.loadContent('view/departements.php');
+                    $.notify(data);
+                }
+            });
+        });
+
+        $("#msgBox").on("shown.bs.modal", function(e) {
+            $("#msgBox").trigger('reset');
+            var elem = $(e.relatedTarget);
+            var data = $.parseJSON(elem.attr('data-val').replace(/\'/g, '"'));
+            $.each(data, function(key, value){
+                $("#frm_delete [name="+key+"]").val(value);
+            });
+            $("#msgBox .modal-body h4 i").text(data['nom']);
+        });
+
+        $("#frm_delete input[type='submit']").on('click', function(e){
+            $.ajax( {
+                url : "control/handler/departementHdl.php",
+                type : "POST",
+                data : $('#frm_delete').serialize(),
                 success : function(data) {
                     $.AdminLTE.loadContent('view/departements.php');
                     $.notify(data);

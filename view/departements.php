@@ -6,11 +6,10 @@
  * Time: 12:11
  */
 if(file_exists('control/departement.php')) {
-    require 'control/departement.php';
+    include_once 'control/departement.php';
 } else {
-    require '../control/departement.php';
+    include_once '../control/departement.php';
 }
-    
 
 $depart = new departement();
 
@@ -44,11 +43,10 @@ $depart = new departement();
                 <!-- /.box-header -->
                 <div class="box-body">
                     <?php
-                    $dvsReponse = $depart->select("departements", " WHERE parent IS NULL");//$conn->query('SELECT * FROM departements WHERE parent=0');
-                    $data = $dvsReponse->fetchAll(PDO::FETCH_ASSOC);
+                    $data = $depart->get_data(" WHERE parent IS NULL");
                     //$count = 0;
                     foreach ($data as $dvs) {
-                        $str = htmlspecialchars(str_replace("\"","'", json_encode($dvs,JSON_UNESCAPED_UNICODE)), ENT_QUOTES, 'UTF-8');
+                        $str = str_replace("\"","'", json_encode($dvs,JSON_UNESCAPED_UNICODE));
 
                         ?>
                         <div class="col-md-6 connectedSortable ui-sortable">
@@ -59,7 +57,7 @@ $depart = new departement();
                                         <div class="btn-group">
                                             <a class="btn btn-box-tool" data-toggle="modal" data-target="#myModal" data-val="<?php echo "{'parent': ".$dvs['sid']."}"; ?>"><i class="fa fa-plus"></i></a>
                                             <a  class="btn btn-box-tool" data-toggle="modal" data-target="#myModal" data-val="<?php echo $str; ?>"><i class="fa fa-edit"></i></a>
-                                            <a  class="btn btn-box-tool" data-toggle="modal" data-target="#msgBox" data-val="<?php echo $dvs['sid']; ?>"><i class="fa fa-trash-o"></i></a>
+                                            <a  class="btn btn-box-tool" data-toggle="modal" data-target="#msgBox" data-val="<?php echo $str; ?>"><i class="fa fa-trash-o"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -67,9 +65,9 @@ $depart = new departement();
                                 <div class="box-body no-padding">
                                     <table class="table table-striped">
                                         <?php
-                                        $srvReponse = $depart->select("departements", " WHERE parent=".$dvs['sid']);//$conn->query('SELECT * FROM departements WHERE parent = ' . $dvs['sid']);
-                                        while ($srv = $srvReponse->fetch(PDO::FETCH_ASSOC)) {
-                                            $strs = htmlspecialchars(str_replace("\"","'", json_encode($srv,JSON_UNESCAPED_UNICODE)), ENT_QUOTES, 'UTF-8');
+                                        $sData = $depart->get_data( " WHERE parent=".$dvs['sid']);
+                                        foreach ($sData as $srv) {
+                                            $strs = str_replace("\"","'", json_encode($srv,JSON_UNESCAPED_UNICODE));
                                             ?>
                                             <tr>
                                                 <td style="width: 10px"><i class="fa fa-sitemap"></i></td>
@@ -78,13 +76,12 @@ $depart = new departement();
                                                 <td style="width: 45px">
                                                     <div class="tools">
                                                         <a style="cursor: pointer;" class="fa fa-edit" data-toggle="modal" data-target="#myModal" data-val="<?php echo $strs; ?>"></a>
-                                                        <a style="cursor: pointer;" class="fa fa-trash-o" data-toggle="modal" data-target="#msgBox" data-val="<?php echo $srv['sid']; ?>"></a>
+                                                        <a style="cursor: pointer;" class="fa fa-trash-o" data-toggle="modal" data-target="#msgBox" data-val="<?php echo $strs; ?>"></a>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <?php
+                                        <?php
                                         }
-                                        $srvReponse->closeCursor();
                                         ?>
                                     </table>
                                 </div>
@@ -107,6 +104,7 @@ $depart = new departement();
                             <form  method="post" id="dep_frm" onsubmit="">
                                 <div class="modal-body">
                                     <input type="hidden" name="sid" value="">
+                                    <input type="hidden" name="edit" value="edit">
                                     <div class="form-group">
                                         <input type="hidden" name="parent" value="">
                                         <label>Département</label>
@@ -115,10 +113,9 @@ $depart = new departement();
                                             <?php
                                                 foreach ($data as $dvs) {
                                             ?>
-                                            <option value="<?php echo $dvs["sid"] ?>"><?php echo $dvs["nom"] ?></option>
+                                                <option value="<?php echo $dvs["sid"] ?>"><?php echo $dvs["nom"] ?></option>
                                             <?php
                                                 }
-                                                $dvsReponse->closeCursor();
                                             ?>
                                         </select>
                                     </div>
@@ -157,22 +154,24 @@ $depart = new departement();
                     <!-- /.modal-dialog -->
                 </div>
                 <!-- /.modal -->
-                <div class="modal modal-warning" id="msgBox">
+                <div class="modal modal-danger " id="msgBox">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <div class="modal-header">
+                            <div class="modal-header modal-solid">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title"><i class="fa fa-warning" style="padding-right: 5px;"></i>Avertissement</h4>
+                                <h4 class="modal-title"><i class="fa fa-warning" style="padding-right: 5px;"></i><strong>Avertissement</strong></h4>
                             </div>
                             <div class="modal-body">
-                                <p style="text-align: center;">Voulez vous vraiment supprimer ... ?</p>
+                                <h4 style="text-align: center;">Voulez vous vraiment supprimer le département de &laquo;<i style="color: #ac2925;"><?php echo $depart->nom ?></i>&raquo; ?</h4>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">NON</button>
                                 <form method="post" id="frm_delete">
-                                    <input type="hidden" name="sid" value="<?php echo $depart->sid ?>">
-                                    <input type="submit" name="sDelete"  value="OUI" class="btn btn-outline">
+                                    <input type="hidden" name="sid" value="">
+                                    <input type="hidden" name="nom" value="">
+                                    <input type="hidden" name="del" value="del">
+                                    <input type="button" class="btn btn-default pull-left" value="NON" data-dismiss="modal">
+                                    <input type="submit" class="btn btn-danger" value="OUI" c data-dismiss="modal">
                                 </form>
                             </div>
                         </div>
@@ -185,3 +184,6 @@ $depart = new departement();
         </div>
     </div>
 </section>
+<script>
+    $.AdminLTE.editDept();
+</script>
