@@ -27,24 +27,36 @@ class employee extends connexion
     }
 
     public function build_data($data){
-        $all = array();
         $div = array();
-        $srv = array();
-        $emp = array();
-        //print_r($data) ;
         foreach ($data as $row){
             $key = $row['divAbbrev'];
             $skey = $row['srvAbbrev'];
 
-            if(array_key_exists($key, $all)){
-                $div[$key][$skey] = $row;
+            if(array_key_exists($key, $div)){
+                if(array_key_exists($skey, $div[$key]['records'])){
+                    array_push($div[$key]['records'][$skey]['records'], $row);
+                } else {
+                    $div[$key]['records'][$skey] = array();
+                    $div[$key]['records'][$skey]['abbrev'] = $skey;
+                    $div[$key]['records'][$skey]['name'] = $row['srvNom'];
+                    $div[$key]['records'][$skey]['records'] = array();
+                    array_push($div[$key]['records'][$skey]['records'], $row);
+                }
             } else {
                 $div[$key] = array();
+                $div[$key]['abbrev'] = $key;
+                $div[$key]['name'] = $row['divNom'];
+                $div[$key]['records'] = array();
+                $div[$key]['records'][$skey] = array();
+                $div[$key]['records'][$skey]['abbrev'] = $skey;
+                $div[$key]['records'][$skey]['name'] = $row['srvNom'];
+                $div[$key]['records'][$skey]['records'] = array();
+                array_push($div[$key]['records'][$skey]['records'], $row);
             }
         }
 
-        $str = str_replace("\"","'", json_encode($div,JSON_UNESCAPED_UNICODE));
+        //$str = str_replace("\"","'", json_encode($div,JSON_UNESCAPED_UNICODE));
 
-        return $str;
+        return $div;
     }
 }
