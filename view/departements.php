@@ -104,7 +104,7 @@ $depart = new departement();
                             <form  method="post" id="dep_frm" onsubmit="">
                                 <div class="modal-body">
                                     <input type="hidden" name="sid" value="">
-                                    <input type="hidden" name="edit" value="edit">
+                                    <input type="hidden" name="dept_edit" value="edit">
                                     <div class="form-group">
                                         <input type="hidden" name="parent" value="">
                                         <label>Département</label>
@@ -169,7 +169,7 @@ $depart = new departement();
                                 <form method="post" id="frm_delete">
                                     <input type="hidden" name="sid" value="">
                                     <input type="hidden" name="nom" value="">
-                                    <input type="hidden" name="del" value="del">
+                                    <input type="hidden" name="dept_del" value="del">
                                     <input type="button" class="btn btn-default pull-left" value="NON" data-dismiss="modal">
                                     <input type="submit" class="btn btn-danger" value="OUI" c data-dismiss="modal">
                                 </form>
@@ -185,5 +185,5 @@ $depart = new departement();
     </div>
 </section>
 <script>
-    $.AdminLTE.editDept();
+    $.AdminLTE.departement();
 </script>

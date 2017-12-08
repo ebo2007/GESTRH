@@ -67,7 +67,7 @@
 
     }
 
-    AdminLTE.editDept = function () {
+    AdminLTE.departement = function () {
         $("#myModal").on("shown.bs.modal", function(e) {
             $("#dep_frm").trigger('reset');
             var link = $(e.relatedTarget);
@@ -92,7 +92,7 @@
 
         $("#dep_frm input[type='submit']").on('click', function(e){
             $.ajax( {
-                url : "control/handler/departementHdl.php",
+                url : "control/handlers.php",
                 type : "POST",
                 data : $('#dep_frm').serialize(),
                 success : function(data) {
@@ -114,7 +114,7 @@
 
         $("#frm_delete input[type='submit']").on('click', function(e){
             $.ajax( {
-                url : "control/handler/departementHdl.php",
+                url : "control/handlers.php",
                 type : "POST",
                 data : $('#frm_delete').serialize(),
                 success : function(data) {
@@ -124,6 +124,35 @@
             });
         });
 
+    }
+    AdminLTE.populateSelect = function (sltSrc, sltDest, data, sltDest2, data2){
+        $( sltSrc ).change(function() {
+            $( sltSrc + " option:selected" ).each(function() {
+                ajaxRsp = $.ajax( {
+                    url : "control/handlers.php",
+                    type : "POST",
+                    data : $.extend({sid: $(this).val()}, data),
+                    dataType:'json',
+                    success : function(res) {
+                        var options = $(sltDest);
+                        options.empty();
+                        //options.append(new Option("--- Select ---", 0));
+                        $.each(res, function () {
+                            options.append(new Option(this.nom, this.sid));
+                        });
+                        if(sltDest2){
+                            $.AdminLTE.populateSelect(sltDest, sltDest2, data2);
+                        }
+                    }
+                });
+            });
+        }).trigger( "change" );
+
+    }
+    AdminLTE.employee = function () {
+        $.AdminLTE.populateSelect("#emp_frm select[name='divId']", "#emp_frm select[name='srvId']",{emp_div: "division"} );
+        $.AdminLTE.populateSelect("#emp_frm select[name='cdrId']", "#emp_frm select[name='grdId']",{emp_cdr: "cadre"}, "#emp_frm select[name='idcId']",{emp_idc: "indice"} );
+        //$.AdminLTE.populateSelect("#emp_frm select[name='grdId']", "#emp_frm select[name='idcId']",{emp_idc: "indice"} );
     }
 
 })(jQuery, $.AdminLTE);

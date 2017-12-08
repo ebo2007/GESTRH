@@ -19,6 +19,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Ionicons -->
     <link rel="stylesheet" href="dist/css/cmpl/ionicons.min.css">
     <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/css.css">
     <link rel="stylesheet" href="dist/css/AdminLTE.css">
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
           page. However, you can choose any other skin. Make sure you
@@ -433,7 +434,8 @@ desired effect
 <script>
     $.AdminLTE.msgBox();
     $.AdminLTE.sortBox();
-    $.AdminLTE.editDept();
+    $.AdminLTE.departement();
+    $.AdminLTE.employee();
 
 </script>
 
