@@ -177,7 +177,7 @@ $data = $emp->build_data($qData);
                                     <input type="text" class="form-control" placeholder="Date de recrutement" name="Date de recrutement" value="" >
                                 </div>
                                 <div class="form-group col-lg-4">
-                                    <label>Téléphone :</label>
+                                    <label>Téléphone : </label>
                                     <input type="text" class="form-control" placeholder="Téléphone" name="tel" value="" >
                                 </div>
                                 <div class="form-group col-lg-4">
